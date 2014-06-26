@@ -8,7 +8,13 @@ git submodule update --init
 #parallel -j4 cd {}\; pwd\; git pull :::: <(git submodule status | awk '{print $2}')
 git submodule status | awk '{print $2}' | parallel -j8 'cd {}; pwd; git pull'
 
+cd $DIR_OF_SCRIPT/emacs/emacs-live
+git submodule update --init
+#git submodule status | awk '{print $2}' | parallel -j8 'cd {}; pwd; git pull'
+
 cd $HOME
+
+echo "=> Create symlinks"
 
 ln -sf $DIR_OF_SCRIPT/tmux.conf $HOME/.tmux.conf
 ln -sf $DIR_OF_SCRIPT/oh-my-zsh/zshrc $HOME/.zshrc
@@ -20,3 +26,5 @@ ln -sf $DIR_OF_SCRIPT/gitconfig $HOME/.gitconfig
 ln -sf $DIR_OF_SCRIPT/emacs/emacs-live $HOME/.emacs.d
 ln -sf $DIR_OF_SCRIPT/emacs/.live-packs $HOME/.live-packs
 ln -sf $DIR_OF_SCRIPT/emacs/evilmode-pack $HOME/.evilmode-pack
+
+echo "=> Done"
