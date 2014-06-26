@@ -1,0 +1,20 @@
+#!/bin/zsh
+
+SOURCE=$1
+TARGET=$2
+SUBDIRECTORY=$3
+
+git clone $SOURCE $TARGET
+
+cd $TARGET || exit 1
+
+git remote rm origin
+
+git tag -l | xargs git tag -d
+
+git filter-branch --tag-name-filter cat --prune-empty --subdirectory-filter $SUBDIRECTORY -- --all
+
+git reset --hard
+git for-each-ref --format="%(refname)" refs/original/ | xargs -n 1 git update-ref -d
+git reflog expire --expire=now --all
+git gc --aggressive --prune=now
