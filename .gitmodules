@@ -10,3 +10,6 @@
 [submodule "emacs-live"]
 	path = emacs-live
 	url = https://github.com/overtone/emacs-live.git
+[submodule "emacs/evilmode-pack"]
+	path = emacs/evilmode-pack
+	url = https://github.com/siancu/evilmode-pack
