@@ -4,8 +4,9 @@ set -e
 
 cd $DIR_OF_SCRIPT
 
-git submodule init --update
-git submodule foreach git pull
+git submodule update --init
+#parallel -j4 cd {}\; pwd\; git pull :::: <(git submodule status | awk '{print $2}')
+git submodule status | awk '{print $2}' | parallel -j8 'cd {}; pwd; git pull'
 
 cd $HOME
 
