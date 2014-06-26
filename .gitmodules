@@ -7,3 +7,6 @@
 [submodule "vim-dot-files"]
 	path = vim-dot-files
 	url = git@github.com:akaivola/vim-dot-files.git
+[submodule "emacs-live"]
+	path = emacs-live
+	url = https://github.com/overtone/emacs-live.git
