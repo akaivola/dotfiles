@@ -20,7 +20,8 @@ cd $HOME
 echo "=> Create symlinks"
 
 ln -sf $DIR_OF_SCRIPT/tmux.conf $HOME/.tmux.conf
-ln -sf $DIR_OF_SCRIPT/oh-my-zsh/zshrc $HOME/.zshrc
+ln -sF $DIR_OF_SCRIPT/oh-my-zsh $HOME/.oh-my-zsh
+ln -sf $HOME/.oh-my-zsh/zshrc $HOME/.zshrc
 ln -sf $DIR_OF_SCRIPT/vim-dot-files $HOME/.vim
 ln -sf $HOME/.vim/vimrc $HOME/.vimrc
 ln -sF $DIR_OF_SCRIPT/bin $HOME/bin
