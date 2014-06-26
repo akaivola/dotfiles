@@ -19,4 +19,4 @@ ln -sf $DIR_OF_SCRIPT/ackrc $HOME/.ackrc
 ln -sf $DIR_OF_SCRIPT/gitconfig $HOME/.gitconfig
 ln -sf $DIR_OF_SCRIPT/emacs-live $HOME/.emacs.d
 ln -sf $DIR_OF_SCRIPT/emacs/.live-packs $HOME/.live-packs
-ln -sf $DIR_OF_SCRIPT/emacs/.evilmode-pack $HOME/.evilmode-pack
+ln -sf $DIR_OF_SCRIPT/emacs/evilmode-pack $HOME/.evilmode-pack
