@@ -13,3 +13,6 @@
 [submodule "emacs/evilmode-pack"]
 	path = emacs/evilmode-pack
 	url = https://github.com/siancu/evilmode-pack
+[submodule "emacs/.live-packs/akaivola-pack/lib/arduino-mode"]
+	path = emacs/.live-packs/akaivola-pack/lib/arduino-mode
+	url = git@github.com:bookest/arduino-mode.git
