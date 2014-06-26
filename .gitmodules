@@ -8,7 +8,7 @@
 	path = vim-dot-files
 	url = git@github.com:akaivola/vim-dot-files.git
 [submodule "emacs-live"]
-	path = emacs-live
+	path = emacs/emacs-live
 	url = https://github.com/overtone/emacs-live.git
 [submodule "emacs/evilmode-pack"]
 	path = emacs/evilmode-pack
