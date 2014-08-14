@@ -11,6 +11,7 @@
 (setq cider-repl-history-file "/tmp/cider.history")
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
 (add-hook 'cider-repl-mode-hook 'subword-mode)
+(add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
 
 ;; Line numbering
 (global-linum-mode t)
