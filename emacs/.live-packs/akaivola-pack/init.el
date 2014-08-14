@@ -27,6 +27,14 @@
 (setq auto-mode-alist (cons '("\\.\\(pde\\|ino\\)$" . arduino-mode) auto-mode-alist))
 (autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t)
 
+;; SLIME
+(live-add-pack-lib "slime")
+(require 'slime-autoloads)
+(add-hook 'js2-mode-hook
+  (lambda ()
+    (slime-js-minor-mode 1)))
+(setq slime-contribs '(slime-js))
+
 ;; Emacs-for-python
 (live-add-pack-lib "emacs-for-python")
 (require 'epy-setup)      ;; It will setup other loads, it is required!
