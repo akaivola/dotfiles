@@ -6,6 +6,11 @@
 ;; Load bindings config
 (live-load-config-file "bindings.el")
 
+(require 'package)
+(add-to-list 'package-archives
+  '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+
 ;; cider config
 (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
 (setq cider-repl-history-file "/tmp/cider.history")
