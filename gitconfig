@@ -51,11 +51,9 @@
   show = show --word-diff
   st = status -s
 	root = !pwd
+  id = difftool --no-prompt --extcmd icdiff
 [branch]
 	autosetuprebase = always
-[difftool "sourcetree"]
-	cmd = /Applications/kdiff3.app/Contents/MacOS/kdiff3 \"$LOCAL\" \"$REMOTE\"
-	path =
 [push]
   default = tracking
 [pull]
@@ -70,3 +68,9 @@
 	diff = less -X -R -F
 [help]
 	autocorrect = 1
+[http]
+	sslVerify = false
+[credential]
+  helper = osxkeychain
+[diff]
+	external = /Users/akaivola/bin/icdiff-wrapper.sh
