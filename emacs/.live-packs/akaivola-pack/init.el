@@ -11,6 +11,15 @@
   '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
+;; Fuck the backup files in same directory
+(setq backup-directory-alist `(("." . "~/.saves")))
+
+;; Fuck the tab using people
+(setq-default indent-tabs-mode nil)
+(setq tab-width 2)
+(defvaralias 'c-basic-offset 'tab-width)
+(defvaralias 'cperl-indent-level 'tab-width)
+
 ;; cider config
 (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
 (setq cider-repl-history-file "/tmp/cider.history")
@@ -20,6 +29,9 @@
 
 ;; Line numbering
 (global-linum-mode t)
+
+;; Auto cleanup whitespace
+(setq whitespace-action '(auto-cleanup))
 
 ;; Hylang
 (live-add-pack-lib "hy-mode")
@@ -49,3 +61,15 @@
 (require 'epy-bindings)   ;; For my suggested keybindings [optional]
 (epy-setup-checker "pyflakes %f")
 (epy-setup-ipython)
+(setq skeleton-pair nil) ;; fucking Emacs-for-python sets skeleton-pair to non nil
+
+;; Coffeescript
+(custom-set-variables '(coffee-tab-width 2))
+
+;; Evil Mode
+(define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+(define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
+(define-key evil-insert-state-map (kbd "C-u")
+    (lambda ()
+      (interactive)
+        (evil-delete (point-at-bol) (point))))

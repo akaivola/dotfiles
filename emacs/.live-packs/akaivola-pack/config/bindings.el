@@ -1,9 +1,5 @@
 ;; Place your bindings here.
 
-;; For example:
-;;(define-key global-map (kbd "C-+") 'text-scale-increase)
-;;(define-key global-map (kbd "C--") 'text-scale-decrease)
-
 (evil-leader/set-leader ",")
 
 (evil-leader/set-key
@@ -16,4 +12,16 @@
   "er" 'slime-eval-region)
 
 (evil-leader/set-key
-  "ag" 'anything-git-files)
+  "ag" 'anything-git-files
+  "gg" 'helm-git-grep
+  "gp" 'helm-git-grep-at-point
+  "go" 'helm-occur-from-isearch)
+
+;; EasyMotion.vim analogue
+(evil-leader/set-key
+  "," 'ace-jump-mode)
+
+(evil-leader/set-key-for-mode 'coffee-mode
+  "<" 'coffee-indent-shift-left
+  ">" 'coffee-indent-shift-right
+  "r" 'coffee-send-region)
