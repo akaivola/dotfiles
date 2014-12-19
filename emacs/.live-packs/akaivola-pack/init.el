@@ -12,11 +12,13 @@
 (package-initialize)
 
 ;; Fuck the backup files in same directory
-(setq backup-directory-alist `(("." . "~/.saves")))
+(setq backup-directory-alist '("." . "~/.saves"))
 
 ;; Fuck the tab using people
-(setq-default indent-tabs-mode nil)
 (setq tab-width 2)
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width tab-width)
+(setq-default evil-shift-width tab-width)
 (defvaralias 'c-basic-offset 'tab-width)
 (defvaralias 'cperl-indent-level 'tab-width)
 
