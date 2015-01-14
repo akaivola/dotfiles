@@ -12,7 +12,7 @@
 (package-initialize)
 
 ;; Fuck the backup files in same directory
-(setq backup-directory-alist '("." . "~/.saves"))
+(setq backup-directory-alist '("~/.saves"))
 
 ;; Fuck the tab using people
 (setq tab-width 2)
@@ -21,6 +21,17 @@
 (setq-default evil-shift-width tab-width)
 (defvaralias 'c-basic-offset 'tab-width)
 (defvaralias 'cperl-indent-level 'tab-width)
+
+;; global visual line break
+(setq global-visual-line-mode 1)
+
+;; Move point up and down and horizontally just as in Vim
+(define-key evil-normal-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
+(define-key evil-normal-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
+(define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
+(define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
+; Make horizontal movement cross lines
+(setq-default evil-cross-lines t)
 
 ;; cider config
 (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
