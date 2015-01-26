@@ -24,4 +24,4 @@
 (evil-leader/set-key-for-mode 'coffee-mode
   "<" 'coffee-indent-shift-left
   ">" 'coffee-indent-shift-right
-  "r" 'coffee-send-region)
+  "c" 'coffee-compile-region)
