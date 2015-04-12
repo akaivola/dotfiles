@@ -7,12 +7,16 @@
 (live-load-config-file "bindings.el")
 
 (require 'package)
-(add-to-list 'package-archives
-  '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
 
 ;; Fuck the backup files in same directory
-(setq backup-directory-alist '("~/.saves"))
+(setq backup-directory-alist
+  `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+  `((".*" ,temporary-file-directory t)))
+
 
 ;; Fuck the tab using people
 (setq tab-width 2)
@@ -33,15 +37,37 @@
 ; Make horizontal movement cross lines
 (setq-default evil-cross-lines t)
 
+;; Clojure config
+(add-hook 'clojure-mode-hook 'turn-on-eldoc-mode)
+(setq nrepl-popup-stacktraces nil)
+(require 'auto-complete-config)
+(setq ac-delay 0.0)
+(setq ac-quick-help-delay 0.5)
+(ac-config-default)
+
+(require 'ac-nrepl)
+(add-hook 'cider-repl-mode-hook #'company-mode)
+(add-hook 'cider-mode-hook #'company-mode)
+(add-hook 'cider-repl-mode-hook #'disable-paredit-mode)
+(add-hook 'cider-mode-hook #'disable-paredit-mode)
+
+(eval-after-load "cider"
+  '(define-key cider-mode-map (kbd "C-c C-d") 'ac-nrepl-popup-doc))
+
+(show-paren-mode 1)
+
 ;; cider config
 (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
 (setq cider-repl-history-file "/tmp/cider.history")
-(add-hook 'cider-repl-mode-hook 'paredit-mode)
+(add-hook 'cider-repl-mode-hook 'smartparens-mode)
 (add-hook 'cider-repl-mode-hook 'subword-mode)
 (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
 
 ;; Line numbering
 (global-linum-mode t)
+
+;; auto-complete
+(global-auto-complete-mode t)
 
 ;; Auto cleanup whitespace
 (setq whitespace-action '(auto-cleanup))
@@ -74,6 +100,7 @@
 (require 'epy-bindings)   ;; For my suggested keybindings [optional]
 (epy-setup-checker "pyflakes %f")
 (epy-setup-ipython)
+
 (setq skeleton-pair nil) ;; fucking Emacs-for-python sets skeleton-pair to non nil
 
 ;; Coffeescript
@@ -83,6 +110,6 @@
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
 (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
 (define-key evil-insert-state-map (kbd "C-u")
-    (lambda ()
-      (interactive)
-        (evil-delete (point-at-bol) (point))))
+  (lambda ()
+    (interactive)
+    (evil-delete (point-at-bol) (point))))
