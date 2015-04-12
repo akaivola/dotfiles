@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+DIR_OF_SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+http --auth admin:admin get http://192.168.1.254/logTest.cmd | pup '.log text{}'
+wisp ~/Development/adslstatus/src/adslstatus
