@@ -23,7 +23,7 @@
 (evil-leader/set-key
   "jv" 'cider-jump-to-var
   "jb" 'cider-jump-back
-  "gg" 'cider-grimoire)
+  "jd" 'cider-grimoire)
 
 ;; EasyMotion.vim analogue
 (evil-leader/set-key

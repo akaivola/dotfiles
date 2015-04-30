@@ -18,7 +18,7 @@
   `((".*" ,temporary-file-directory t)))
 
 
-;; Fuck the tab using people
+;; Fuck the tab
 (setq tab-width 2)
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width tab-width)
@@ -28,6 +28,9 @@
 
 ;; global visual line break
 (setq global-visual-line-mode 1)
+
+;; global autorevert
+(setq global-auto-revert-mode t)
 
 ;; Move point up and down and horizontally just as in Vim
 (define-key evil-normal-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
@@ -113,3 +116,8 @@
   (lambda ()
     (interactive)
     (evil-delete (point-at-bol) (point))))
+
+;; Sqli mode
+(add-hook 'sql-interactive-mode-hook
+          (lambda ()
+            (toggle-truncate-lines t)))
