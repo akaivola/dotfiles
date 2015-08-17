@@ -43,16 +43,11 @@
 ;; Clojure config
 (add-hook 'clojure-mode-hook 'turn-on-eldoc-mode)
 (setq nrepl-popup-stacktraces nil)
+
 (require 'auto-complete-config)
 (setq ac-delay 0.0)
 (setq ac-quick-help-delay 0.5)
 (ac-config-default)
-
-(require 'ac-nrepl)
-(add-hook 'cider-repl-mode-hook #'company-mode)
-(add-hook 'cider-mode-hook #'company-mode)
-(add-hook 'cider-repl-mode-hook #'disable-paredit-mode)
-(add-hook 'cider-mode-hook #'disable-paredit-mode)
 
 (eval-after-load "cider"
   '(define-key cider-mode-map (kbd "C-c C-d") 'ac-nrepl-popup-doc))
@@ -65,6 +60,15 @@
 (add-hook 'cider-repl-mode-hook 'smartparens-mode)
 (add-hook 'cider-repl-mode-hook 'subword-mode)
 (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
+
+(require 'ac-cider)
+(add-hook 'cider-mode-hook 'ac-flyspell-workaround)
+(add-hook 'cider-mode-hook 'ac-cider-setup)
+(add-hook 'cider-repl-mode-hook 'ac-cider-setup)
+(eval-after-load "auto-complete"
+  '(progn
+     (add-to-list 'ac-modes 'cider-mode)
+     (add-to-list 'ac-modes 'cider-repl-mode)))
 
 ;; Line numbering
 (global-linum-mode t)

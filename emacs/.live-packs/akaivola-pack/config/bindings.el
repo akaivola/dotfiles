@@ -21,6 +21,9 @@
   "go" 'helm-occur-from-isearch)
 
 (evil-leader/set-key
+  "pt" 'projectile-pt)
+
+(evil-leader/set-key
   "jv" 'cider-jump-to-var
   "jb" 'cider-jump-back
   "jd" 'cider-grimoire)
@@ -33,3 +36,6 @@
   "<" 'coffee-indent-shift-left
   ">" 'coffee-indent-shift-right
   "cr" 'coffee-compile-region)
+
+(evil-leader/set-key
+  "w" 'switch-window)

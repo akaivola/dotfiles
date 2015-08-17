@@ -55,7 +55,7 @@
 [branch]
 	autosetuprebase = always
 [push]
-  default = tracking
+	default = current
 [pull]
   rebase = preserve
 [mergetool "sourcetree"]
