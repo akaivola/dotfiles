@@ -39,3 +39,6 @@
 
 (evil-leader/set-key
   "w" 'switch-window)
+
+(evil-leader/set-key
+  "n" 'neotree-find)

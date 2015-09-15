@@ -44,10 +44,7 @@
 (add-hook 'clojure-mode-hook 'turn-on-eldoc-mode)
 (setq nrepl-popup-stacktraces nil)
 
-(require 'auto-complete-config)
-(setq ac-delay 0.0)
-(setq ac-quick-help-delay 0.5)
-(ac-config-default)
+(company-quickhelp-mode 1)
 
 (eval-after-load "cider"
   '(define-key cider-mode-map (kbd "C-c C-d") 'ac-nrepl-popup-doc))
@@ -61,14 +58,6 @@
 (add-hook 'cider-repl-mode-hook 'subword-mode)
 (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
 
-(require 'ac-cider)
-(add-hook 'cider-mode-hook 'ac-flyspell-workaround)
-(add-hook 'cider-mode-hook 'ac-cider-setup)
-(add-hook 'cider-repl-mode-hook 'ac-cider-setup)
-(eval-after-load "auto-complete"
-  '(progn
-     (add-to-list 'ac-modes 'cider-mode)
-     (add-to-list 'ac-modes 'cider-repl-mode)))
 
 ;; Line numbering
 (global-linum-mode t)
@@ -125,3 +114,11 @@
 (add-hook 'sql-interactive-mode-hook
           (lambda ()
             (toggle-truncate-lines t)))
+
+; neotree
+(add-hook 'neotree-mode-hook
+           (lambda ()
+             (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+             (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
+             (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+             (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
