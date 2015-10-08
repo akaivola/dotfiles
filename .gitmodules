@@ -7,15 +7,3 @@
 [submodule "vim-dot-files"]
 	path = vim-dot-files
 	url = git@github.com:akaivola/vim-dot-files.git
-[submodule "emacs-live"]
-	path = emacs/emacs-live
-	url = https://github.com/overtone/emacs-live.git
-[submodule "emacs/evilmode-pack"]
-	path = emacs/evilmode-pack
-	url = https://github.com/siancu/evilmode-pack
-[submodule "emacs/.live-packs/akaivola-pack/lib/arduino-mode"]
-	path = emacs/.live-packs/akaivola-pack/lib/arduino-mode
-	url = git@github.com:bookest/arduino-mode.git
-[submodule "emacs/.live-packs/akaivola-pack/lib/slime"]
-	path = emacs/.live-packs/akaivola-pack/lib/slime
-	url = https://github.com/slime/slime

@@ -19,6 +19,7 @@
      ;; ----------------------------------------------------------------
      ;; auto-completion
      ;; better-defaults
+     themes-megapack
      emacs-lisp
      auto-completion
      html
@@ -75,13 +76,9 @@ before layers configuration."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(solarized-dark
-                         solarized-light
-                         spacemacs-light
-                         spacemacs-dark
-                         leuven
-                         monokai
-                         zenburn)
+   dotspacemacs-themes '(sanityinc-tomorrow-bright
+                         sanityinc-tomorrow-eighties
+                         sanityinc-tomorrow-night)
    ;; If non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
@@ -153,7 +150,7 @@ before layers configuration."
    ;; `current' or `nil'. Default is `all'
    dotspacemacs-highlight-delimiters 'all
    ;; If non nil advises quit functions to keep server open when quitting.
-   dotspacemacs-persistent-server t
+   dotspacemacs-persistent-server nil
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
    dotspacemacs-search-tools '("pt" "ag" "ack" "grep")
@@ -163,7 +160,49 @@ before layers configuration."
    dotspacemacs-default-package-repository nil
    )
   ;; User initialization goes here
-  )
+
+  (add-hook 'clojure-mode-hook
+            (lambda ()
+              (define-clojure-indent
+                (defroutes 'defun)
+                (GET 2)
+                (POST 2)
+                (PUT 2)
+                (DELETE 2)
+                (HEAD 2)
+                (ANY 2)
+                (context 2))
+              (define-key clojure-mode-map (kbd "C-k") 'paredit-kill)
+              (define-key clojure-mode-map (kbd "M-r") 'paredit-raise-sexp)))
+
+
+  ;(define-key evil-normal-state-local-map (kbd "C-u") 'evil-scroll-up)
+  ;(define-key evil-visual-state-local-map (kbd "C-u") 'evil-scroll-up)
+  ;(define-key evil-insert-state-local-map (kbd "C-u")
+  ;  (lambda ()
+  ;    (interactive)
+  ;   (evil-delete (point-at-bol) (point))))
+
+  ;; Sqli mode
+  (add-hook 'sql-interactive-mode-hook
+            (lambda ()
+              (toggle-truncate-lines t)))
+
+  (add-hook 'neotree-mode-hook
+            (lambda ()
+              (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+              (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
+              (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+              (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
+
+  ;; cider config
+  ;(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+  ;(add-hook 'cider-repl-mode-hook 'smartparens-mode)
+  (add-hook 'cider-repl-mode-hook 'subword-mode)
+  (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
+
+
+)
 
 (defun dotspacemacs/config ()
   "Configuration function.
@@ -220,53 +259,36 @@ layers configuration."
   (evil-leader/set-key
     "n" 'neotree-find)
 
-  ; hooks
-  ;; Evil Mode
-  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-insert-state-map (kbd "C-u")
-    (lambda ()
-      (interactive)
-      (evil-delete (point-at-bol) (point))))
-
-  ;; Sqli mode
-  (add-hook 'sql-interactive-mode-hook
-            (lambda ()
-              (toggle-truncate-lines t)))
-
-  (add-hook 'neotree-mode-hook
-            (lambda ()
-              (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
-              (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
-              (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
-              (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
-
-  ;; cider config
-  ;(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
-  (setq cider-repl-history-file "/tmp/cider.history")
-  ;(add-hook 'cider-repl-mode-hook 'smartparens-mode)
-  (add-hook 'cider-repl-mode-hook 'subword-mode)
-  (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
-  (eval-after-load "cider"
-    '(define-key cider-mode-map (kbd "C-c C-d") 'ac-nrepl-popup-doc))
-
   (setq nrepl-popup-stacktraces nil)
-
-  (add-hook 'clojure-mode
-            (lambda ()
-              (define-clojure-indent
-                (defroutes 'defun)
-                (GET 2)
-                (POST 2)
-                (PUT 2)
-                (DELETE 2)
-                (HEAD 2)
-                (ANY 2)
-                (context 2))
-              (define-key clojure-mode-map (kbd "C-k") 'paredit-kill)
-              (define-key clojure-mode-map (kbd "M-r") 'paredit-raise-sexp)))
-
-)
+  (setq cider-repl-history-file "/tmp/cider.history")
+  (setq cider-prompt-for-project-on-connect nil)
+  (setq cider-auto-select-error-buffer nil)
+  (setq nrepl-auto-select-error-buffer nil))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ahs-case-fold-search nil)
+ '(ahs-default-range (quote ahs-range-whole-buffer))
+ '(ahs-idle-interval 0.25)
+ '(ahs-idle-timer 0 t)
+ '(ahs-inhibit-face-list nil)
+ '(cider-auto-select-error-buffer nil)
+ '(cider-known-endpoints (quote (("panther" "localhost" "3333"))))
+ '(cider-repl-use-pretty-printing t)
+ '(cider-show-error-buffer nil)
+ '(nrepl-connected-hook
+   (quote
+    (cljr--init-middleware cider-display-connected-message paredit-mode)))
+ '(ring-bell-function (quote ignore) t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
