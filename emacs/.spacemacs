@@ -40,12 +40,21 @@
    ;; configuration in `dotspacemacs/config'.
    dotspacemacs-additional-packages
    '(
+     dash ; Emacs modern list api
+     dash-functional ; Emacs modern list api functional
      paredit
      helm-pt
      switch-window
+     dash-at-point
+     isend-mode
+     lua-mode
+     jsx-mode
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages
+   '(
+     helm-gitignore
+     )
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'
@@ -80,7 +89,7 @@ before layers configuration."
                          sanityinc-tomorrow-eighties
                          sanityinc-tomorrow-night)
    ;; If non nil the cursor color matches the state color.
-   dotspacemacs-colorize-cursor-according-to-state t
+   dotspacemacs-colorize-cursor-according-to-state nil
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
@@ -106,13 +115,13 @@ before layers configuration."
    ;; auto-save the file in-place, `cache' to auto-save the file to another
    ;; file stored in the cache directory and `nil' to disable auto-saving.
    ;; Default value is `cache'.
-   dotspacemacs-auto-save-file-location 'cache
+   dotspacemacs-auto-save-file-location 'original
    ;; If non nil then `ido' replaces `helm' for some commands. For now only
    ;; `find-files' (SPC f f) is replaced.
    dotspacemacs-use-ido nil
    ;; If non nil the paste micro-state is enabled. When enabled pressing `p`
    ;; several times cycle between the kill ring content.
-   dotspacemacs-enable-paste-micro-state nil
+   dotspacemacs-enable-paste-micro-state t
    ;; Guide-key delay in seconds. The Guide-key is the popup buffer listing
    ;; the commands bound to the current keystrokes.
    dotspacemacs-guide-key-delay 0.4
@@ -139,7 +148,7 @@ before layers configuration."
    ;; Transparency can be toggled through `toggle-transparency'.
    dotspacemacs-inactive-transparency 90
    ;; If non nil unicode symbols are displayed in the mode line.
-   dotspacemacs-mode-line-unicode-symbols t
+   dotspacemacs-mode-line-unicode-symbols nil
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters the
    ;; point when it reaches the top or bottom of the screen.
@@ -148,7 +157,7 @@ before layers configuration."
    dotspacemacs-smartparens-strict-mode nil
    ;; Select a scope to highlight delimiters. Possible value is `all',
    ;; `current' or `nil'. Default is `all'
-   dotspacemacs-highlight-delimiters 'all
+   dotspacemacs-highlight-delimiters 'nil
    ;; If non nil advises quit functions to keep server open when quitting.
    dotspacemacs-persistent-server nil
    ;; List of search tool executable names. Spacemacs uses the first installed
@@ -160,51 +169,9 @@ before layers configuration."
    dotspacemacs-default-package-repository nil
    )
   ;; User initialization goes here
-
-  (add-hook 'clojure-mode-hook
-            (lambda ()
-              (define-clojure-indent
-                (defroutes 'defun)
-                (GET 2)
-                (POST 2)
-                (PUT 2)
-                (DELETE 2)
-                (HEAD 2)
-                (ANY 2)
-                (context 2))
-              (define-key clojure-mode-map (kbd "C-k") 'paredit-kill)
-              (define-key clojure-mode-map (kbd "M-r") 'paredit-raise-sexp)))
-
-
-  ;(define-key evil-normal-state-local-map (kbd "C-u") 'evil-scroll-up)
-  ;(define-key evil-visual-state-local-map (kbd "C-u") 'evil-scroll-up)
-  ;(define-key evil-insert-state-local-map (kbd "C-u")
-  ;  (lambda ()
-  ;    (interactive)
-  ;   (evil-delete (point-at-bol) (point))))
-
-  ;; Sqli mode
-  (add-hook 'sql-interactive-mode-hook
-            (lambda ()
-              (toggle-truncate-lines t)))
-
-  (add-hook 'neotree-mode-hook
-            (lambda ()
-              (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
-              (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
-              (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
-              (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
-
-  ;; cider config
-  ;(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
-  ;(add-hook 'cider-repl-mode-hook 'smartparens-mode)
-  (add-hook 'cider-repl-mode-hook 'subword-mode)
-  (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
-
-
 )
 
-(defun dotspacemacs/config ()
+(defun dotspacemacs/user-config ()
   "Configuration function.
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
@@ -215,7 +182,9 @@ layers configuration."
   (setq whitespace-action '(auto-cleanup))
 
   ;; Fuck the tab
+  (setq default-tab-width 2)
   (setq tab-width 2)
+  (setq js-indent-level 2)
   (setq-default indent-tabs-mode nil)
   (setq-default tab-width tab-width)
   (setq-default evil-shift-width tab-width)
@@ -228,8 +197,12 @@ layers configuration."
   (define-key evil-normal-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
   (define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
   (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
-                                        ; Make horizontal movement cross lines
+  ; Make horizontal movement cross lines
   (setq-default evil-cross-lines t)
+
+  ; Disable evil mode for the modes
+  (add-to-list 'evil-emacs-state-modes 'shell-mode)
+
   (evil-leader/set-key
     "fs" 'paredit-forward-slurp-sexp
     "bs" 'paredit-backward-slurp-sexp
@@ -241,6 +214,7 @@ layers configuration."
 
   (evil-leader/set-key
     "c"  'projectile-commander
+    "d"  'dash-at-point
     "gg" 'helm-git-grep
     "gp" 'helm-git-grep-at-point
     "go" 'helm-occur-from-isearch)
@@ -259,11 +233,72 @@ layers configuration."
   (evil-leader/set-key
     "n" 'neotree-find)
 
+  (evil-leader/set-key
+    "kr" 'helm-show-kill-ring)
+
   (setq nrepl-popup-stacktraces nil)
   (setq cider-repl-history-file "/tmp/cider.history")
   (setq cider-prompt-for-project-on-connect nil)
   (setq cider-auto-select-error-buffer nil)
-  (setq nrepl-auto-select-error-buffer nil))
+  (setq nrepl-auto-select-error-buffer nil)
+
+  (setq clojure-enable-fancify-symbols nil)
+  (setq global-prettify-symbols-mode nil)
+
+  (define-key global-map "\M-v" 'yank)
+
+
+  (add-hook 'prog-mode-hook
+            'enable-paredit-mode
+            t)
+
+  (add-hook 'emacs-lisp-mode-hook
+            'rainbow-delimiters-mode
+            t)
+
+  ;; Clojure
+  (add-hook 'clojure-mode-hook
+            (lambda ()
+              (define-clojure-indent
+                (defroutes 'defun)
+                (GET 2)
+                (POST 2)
+                (PUT 2)
+                (DELETE 2)
+                (HEAD 2)
+                (ANY 2)
+                (context 2))
+              (define-key clojure-mode-map (kbd "C-k") 'paredit-kill)
+              (define-key clojure-mode-map (kbd "M-r") 'paredit-raise-sexp))
+            t)
+
+  (add-hook 'clojurescript-mode-hook
+            (lambda ()
+              (setq dash-at-point-docset "clojurescript")))
+
+  ;; Sqli mode
+  (add-hook 'sql-interactive-mode-hook
+            (lambda ()
+              (toggle-truncate-lines t)))
+
+  (add-hook 'neotree-mode-hook
+            (lambda ()
+              (dolist (custom-key-binding (list '("TAB" 'neotree-enter)
+                                                '("SPC" 'neotree-enter)
+                                                '("q"   'neotree-hide)
+                                                '("RET" 'neotree-enter)
+                                                '("c"   'neotree-create-node)
+                                                '("d"   'neotree-delete-node)
+                                                '("r"   'neotree-change-root)))
+                (define-key evil-normal-state-local-map
+                  (kbd (car custom-key-binding))
+                  (cadr custom-key-binding)))))
+
+  ;; cider config
+  (add-hook 'cider-repl-mode-hook 'subword-mode)
+  (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
+
+  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -278,13 +313,20 @@ layers configuration."
  '(ahs-idle-timer 0 t)
  '(ahs-inhibit-face-list nil)
  '(cider-auto-select-error-buffer nil)
- '(cider-known-endpoints (quote (("panther" "localhost" "3333"))))
+ '(cider-known-endpoints (quote (("panther" "localhost" "3333")
+                                 ("editor" "localhost" "3334"))))
  '(cider-repl-use-pretty-printing t)
  '(cider-show-error-buffer nil)
+ '(clojure-align-forms-automatically t)
+ '(clojure-indent-style :align-arguments)
+ '(clojure-use-backtracking-indent nil)
+ '(css-indent-offset 2)
+ '(js-indent-level 2 t)
  '(nrepl-connected-hook
    (quote
     (cljr--init-middleware cider-display-connected-message paredit-mode)))
- '(ring-bell-function (quote ignore) t))
+ '(ring-bell-function (quote ignore) t)
+ '(standard-indent 2))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

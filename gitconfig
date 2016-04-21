@@ -1,17 +1,17 @@
 [core]
   editor = /usr/bin/vim
-	excludesfile = /Users/aki/.gitignore_global
+  excludesfile = /Users/aki/.gitignore_global
   whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
   autocrlf = false
-	pager = less -X -R -F
+  pager = less -X -R -F
 [user]
-	email = aki.kaivola@gmail.com
-	name = Aki Kaivola
+  email = aki.kaivola@gmail.com
+  name = Aki Kaivola
 [advice]
   statusHints = false
 [color]
   diff = always
-	ui = true
+  ui = true
 [color "status"]
   added = green
   changed = blue
@@ -37,6 +37,7 @@
   cp = cherry-pick
   diff = diff --word-diff
   fe = fetch
+  fp = fetch --prune
   lg = log -p
   lol = log --graph --decorate --pretty=oneline --abbrev-commit
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
@@ -50,27 +51,29 @@
   su = submodule update
   show = show --word-diff
   st = status -s
-	root = !pwd
+  root = !pwd
   id = difftool --no-prompt --extcmd icdiff
 [branch]
-	autosetuprebase = always
+  autosetuprebase = always
 [push]
-	default = current
+  default = current
 [pull]
   rebase = preserve
 [mergetool "sourcetree"]
-	cmd = /Applications/kdiff3.app/Contents/MacOS/kdiff3 \"$BASE\" \"$LOCAL\" \"$REMOTE\" -o \"$MERGED\"
-	trustExitCode = true
+  cmd = /Applications/kdiff3.app/Contents/MacOS/kdiff3 \"$BASE\" \"$LOCAL\" \"$REMOTE\" -o \"$MERGED\"
+  trustExitCode = true
 [rerere]
-	enabled = true
-	autoupdate = true
+  enabled = true
+  autoupdate = true
 [pager]
-	diff = less -X -R -F
+  diff = less -X -R -F
 [help]
-	autocorrect = 1
+  autocorrect = 1
 [http]
-	sslVerify = false
+  sslVerify = false
 [credential]
   helper = osxkeychain
 [diff]
-	external = /Users/akaivola/bin/icdiff-wrapper.sh
+  external = /Users/akaivola/bin/icdiff-wrapper.sh
+[rebase]
+	autostash = true
