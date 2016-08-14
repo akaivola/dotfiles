@@ -49,6 +49,7 @@
      isend-mode
      lua-mode
      jsx-mode
+     ace-jump-mode
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages
@@ -115,7 +116,7 @@ before layers configuration."
    ;; auto-save the file in-place, `cache' to auto-save the file to another
    ;; file stored in the cache directory and `nil' to disable auto-saving.
    ;; Default value is `cache'.
-   dotspacemacs-auto-save-file-location 'original
+   dotspacemacs-auto-save-file-location 'cache
    ;; If non nil then `ido' replaces `helm' for some commands. For now only
    ;; `find-files' (SPC f f) is replaced.
    dotspacemacs-use-ido nil
@@ -203,32 +204,44 @@ layers configuration."
   ; Disable evil mode for the modes
   (add-to-list 'evil-emacs-state-modes 'shell-mode)
 
-  (evil-leader/set-key
-    "fs" 'paredit-forward-slurp-sexp
-    "bs" 'paredit-backward-slurp-sexp
-    "fb" 'paredit-forward-barf-sexp
-    "bb" 'paredit-backward-barf-sexp
-    "wr" 'paredit-wrap-round
-    "ts" 'transpose-sexps
-    "kt" 'clojure-toggle-keyword-string)
+  (spacemacs/declare-prefix ",f" "Paredit forward")
+  (spacemacs/declare-prefix ",b" "Paredit backward")
+  (spacemacs/declare-prefix ",w" "Paredit wrap")
+  (spacemacs/declare-prefix ",t" "Paredit transpose")
+  (spacemacs/declare-prefix ",s" "Paredit splice")
 
-  (evil-leader/set-key
-    "c"  'projectile-commander
+  (spacemacs/set-leader-keys
+    ",j" 'ace-jump-char-mode)
+
+  (spacemacs/set-leader-keys
+    ",fs" 'paredit-forward-slurp-sexp
+    ",bs" 'paredit-backward-slurp-sexp
+    ",fb" 'paredit-forward-barf-sexp
+    ",bb" 'paredit-backward-barf-sexp
+    ",wr" 'paredit-wrap-round
+    ",ts" 'transpose-sexps
+    ",sp" 'paredit-splice-sexp)
+
+  (spacemacs/set-leader-keys
+    "c" 'projectile-commander)
+
+  (spacemacs/set-leader-keys
     "d"  'dash-at-point
     "gg" 'helm-git-grep
     "gp" 'helm-git-grep-at-point
     "go" 'helm-occur-from-isearch)
 
-  (evil-leader/set-key
+  (spacemacs/set-leader-keys
     "pt" 'helm-projectile-pt)
 
-  (evil-leader/set-key
+  (spacemacs/set-leader-keys-for-major-mode 'clojure-mode
+    "kt" 'clojure-toggle-keyword-string
     "jv" 'cider-jump-to-var
     "jb" 'cider-jump-back
     "jd" 'cider-grimoire)
 
   (evil-leader/set-key
-    "w" 'switch-window)
+    "sw" 'switch-window)
 
   (evil-leader/set-key
     "n" 'neotree-find)
@@ -267,7 +280,9 @@ layers configuration."
                 (DELETE 2)
                 (HEAD 2)
                 (ANY 2)
-                (context 2))
+                (context 2)
+                (it 2)
+                (describe 2))
               (define-key clojure-mode-map (kbd "C-k") 'paredit-kill)
               (define-key clojure-mode-map (kbd "M-r") 'paredit-raise-sexp))
             t)
@@ -313,12 +328,11 @@ layers configuration."
  '(ahs-idle-timer 0 t)
  '(ahs-inhibit-face-list nil)
  '(cider-auto-select-error-buffer nil)
- '(cider-known-endpoints (quote (("panther" "localhost" "3333")
-                                 ("editor" "localhost" "3334"))))
+ '(cider-known-endpoints nil)
  '(cider-repl-use-pretty-printing t)
  '(cider-show-error-buffer nil)
  '(clojure-align-forms-automatically t)
- '(clojure-indent-style :align-arguments)
+ '(clojure-indent-style :always-indent)
  '(clojure-use-backtracking-indent nil)
  '(css-indent-offset 2)
  '(js-indent-level 2 t)
@@ -327,6 +341,7 @@ layers configuration."
     (cljr--init-middleware cider-display-connected-message paredit-mode)))
  '(ring-bell-function (quote ignore) t)
  '(standard-indent 2))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
