@@ -35,7 +35,7 @@
   cm = commit -m
   co = checkout
   cp = cherry-pick
-  diff = diff --word-diff
+  diff = icdiff
   fe = fetch
   fp = fetch --prune
   lg = log -p
@@ -71,9 +71,8 @@
   autocorrect = 1
 [http]
   sslVerify = false
-[credential]
-  helper = osxkeychain
-[diff]
-  external = /Users/akaivola/bin/icdiff-wrapper.sh
 [rebase]
-	autostash = true
+  autostash = true
+[credential "https://git-codecommit.eu-west-1.amazonaws.com"]
+  helper = !aws --profile aki-iam codecommit credential-helper $@
+  UseHttpPath = true
