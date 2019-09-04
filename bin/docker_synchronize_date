@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-# Boot2docker date is in UTC, this is what we want. Every container can have their own time zone which is separate from the host (host = boot2docker)
-docker-machine ssh dev "sudo date -u -s $(date -u +%Y-%m-%d);sudo date -u -s $(date -u +%H:%M:%S)"

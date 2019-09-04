@@ -1,1 +1,0 @@
-curl -X POST http://jenkins:8090/giffi --data $1
