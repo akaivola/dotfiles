@@ -10,7 +10,6 @@
 [advice]
   statusHints = false
 [color]
-  diff = always
   ui = true
 [color "status"]
   added = green
@@ -25,6 +24,10 @@
   keepBackup = false
   #path = /home/akaivola/local/bin/kdiff3
   path = /Applications/kdiff3.app/Contents/MacOS/kdiff3
+[icdiff]
+  tool = icdiff
+[difftool "icdiff"]
+  cmd = icdiff --highlight --line-numbers
 [apply]
   whitespace = nowarn
 [alias]
