@@ -5,7 +5,7 @@
   autocrlf = false
   pager = less -X -R -F
 [user]
-  email = aki.kaivola@gmail.com
+  email = aki.kaivola@reaktor.com
   name = Aki Kaivola
 [advice]
   statusHints = false
@@ -33,13 +33,13 @@
 [alias]
   b = branch
   ca = commit --amend
+  cac = commit --amend -C HEAD
   caa = commit -a --amend -C HEAD
   cam = commit -a -m
   cm = commit -m
   co = checkout
   cp = cherry-pick
   diff = icdiff
-  fe = fetch
   fp = fetch --prune
   lg = log -p
   lol = log --graph --decorate --pretty=oneline --abbrev-commit
@@ -47,15 +47,12 @@
   mt = mergetool
   ra = rebase --abort
   rc = rebase --continue
-  re = rebase
-  sc = svn dcommit
-  scn = svn dcommit -n
-  sf = svn fetch
-  su = submodule update
   show = show --word-diff
   st = status -s
   root = !pwd
-  id = difftool --no-prompt --extcmd icdiff
+  sg = switch --guess
+  sc = switch -c
+  icdiff = difftool --no-prompt --extcmd icdiff
 [branch]
   autosetuprebase = always
 [push]
@@ -74,6 +71,7 @@
   autocorrect = 1
 [http]
   sslVerify = false
+	postBuffer = 1048576000
 [rebase]
   autostash = true
 [credential "https://git-codecommit.eu-west-1.amazonaws.com"]

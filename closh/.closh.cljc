@@ -69,3 +69,5 @@
        (require '[clojure.tools.nrepl.server])
        (println "Starting nrepl at" ~port)
        (defonce server (clojure.tools.nrepl.server/start-server :port ~port))))))
+
+(start-nrepl)
